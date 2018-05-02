@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  include includes/nav.pug
+  include includes/errors.pug
+  body
+    h1 New Patron
+    form(action="/patrons", method="post")
+      include includes/patron_form.pug
+      p
+        input(type='submit', value='Create New Patron')

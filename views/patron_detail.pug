@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  include includes/nav.pug
+  include includes/errors.pug
+
+  body
+  h1 Patron: #{patron.first_name} #{patron.last_name}
+  form(action="/patrons/" + patron.id + "?_method=PUT", method="post")
+    include includes/patron_form.pug
+    p
+      input(type='submit', value='Update')
+  h2 Loan History
+  table
+    thead
+      tr
+        th Book
+        th Patron
+        th Loaned on
+        th Return by
+        th Returned on
+        th Action
+    tbody
+      each loan in loans
+        tr
+          td
+            a(href='/books/' + loan.Book.id) #{loan.Book.title}
+          td
+            a(href="/patrons/" + patron.id) #{patron.first_name} #{patron.last_name}
+          td=moment(loan.loaned_on).format("YYYY-MM-DD")
+          td=moment(loan.return_by).format("YYYY-MM-DD")
+          if(loan.returned_on != null)
+            td=moment(loan.returned_on).format("YYYY-MM-DD")
+          else
+            td
+            td
+              a.button(href='/loans/' + loan.id) Return Book

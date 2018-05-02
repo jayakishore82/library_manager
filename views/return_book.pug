@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  include includes/nav.pug
+  include includes/errors.pug
+
+  body
+  h1 Patron: Return Book
+  p
+    strong Book Title: &nbsp
+    | #{loan.Book.title}
+  p
+    strong Loaned By: &nbsp
+    | #{loan.Patron.first_name} #{loan.Patron.last_name}
+  p
+    strong Loaned On: &nbsp
+    | #{moment(loan.loaned_on).format("YYYY-MM-DD")}
+  p
+    strong Return By: &nbsp
+    | #{moment(loan.return_by).format("YYYY-MM-DD")}
+  form(action='/loans/' + loan.id, method='post')
+    p
+      label(for='returned_on') Returned on:
+      input#returned_on(type='text', name="returned_on" value=date)
+    p
+      input(type='submit', value='Return Book')
